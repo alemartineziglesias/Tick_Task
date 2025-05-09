@@ -83,24 +83,25 @@ public class Login extends JFrame
 		btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() 
 		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				Datos datos = new Datos();
-				String usuario = textFieldUsuario.getText();
-				String clave = new String(textFieldClave.getPassword());
+		    public void actionPerformed(ActionEvent e) 
+		    {
+		        Datos datos = new Datos();
+		        String nombre = textFieldUsuario.getText();
+		        String clave = new String(textFieldClave.getPassword());
 
-				if(datos.comprobarCredenciales(usuario, clave)== true)
-				{
-					Menu_Proyectos proyectos = new Menu_Proyectos(null);
-					proyectos.setVisible(true);
-					setVisible(false);
-				}
-				else
-				{
-					Dialogo dialogo = new Dialogo("Error: las credenciales no son correctas");
-					dialogo.setVisible(true);
-				}
-			}
+		        Usuarios usuario = datos.obtenerUsuarioPorCredenciales(nombre, clave);
+		        if (usuario != null) 
+		        {
+		            Menu_Proyectos menu = new Menu_Proyectos(usuario);
+		            menu.setVisible(true);
+		            setVisible(false);
+		        }
+		        else 
+		        {
+		            Dialogo dialogo = new Dialogo("Error: las credenciales no son correctas");
+		            dialogo.setVisible(true);
+		        }
+		    }
 		});
 		btnEntrar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
 		btnEntrar.setBounds(156, 167, 89, 34);

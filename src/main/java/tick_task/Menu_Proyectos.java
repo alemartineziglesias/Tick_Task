@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,10 +23,13 @@ public class Menu_Proyectos extends JFrame
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JButton btnNuevoProyecto;
+    @SuppressWarnings("unused")
+	private Usuarios usuario;
     Datos datos = new Datos();
 
-    public Menu_Proyectos(Connection conn) 
+    public Menu_Proyectos(Usuarios usuario) 
     {
+    	this.usuario = usuario;
         setTitle("Proyectos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
@@ -55,7 +57,7 @@ public class Menu_Proyectos extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				Crear_Proyecto proyecto = new Crear_Proyecto();
+				Crear_Proyecto proyecto = new Crear_Proyecto(usuario);
 				proyecto.setVisible(true);			
 			}
 		});

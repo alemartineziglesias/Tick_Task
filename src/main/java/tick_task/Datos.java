@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class Datos
 {
 	String driver = "com.mysql.cj.jdbc.Driver";
@@ -46,34 +48,38 @@ public class Datos
 		return conexionCorrecta;
 	}
 	
-	public boolean comprobarCredenciales(String usuario, String clave)
+	public Usuarios obtenerUsuarioPorCredenciales(String nombre, String clave) 
 	{
-		boolean credencialesCorrectas = true;
-		
-		if (conectar() == false) 
-		{
-			return false;
-		}
-		
-		String sentencia = "SELECT * FROM usuarios " 
-		+ "WHERE nombreUsuario='" + usuario + "' " 
-		+ "AND claveUsuario = SHA2('" + clave + "', 256);";
+	    Usuarios usuario = null;
 
-		try
-		{
-			statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			rs = statement.executeQuery(sentencia);
+	    if (!conectar()) 
+	    {
+	        return null;
+	    }
 
-			if(!rs.next())
-			{
-				credencialesCorrectas = false;
-			}
-		}
-		catch(SQLException e)
-		{
-			System.out.println("Error en la sentencia SQL:" + e.toString());
-		}
-		return credencialesCorrectas;
+	    String sql = "SELECT idUsuario, nombreUsuario, claveUsuario FROM usuarios " +
+	                 "WHERE nombreUsuario=? AND claveUsuario = SHA2(?, 256)";
+
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) 
+	    {
+	        stmt.setString(1, nombre);
+	        stmt.setString(2, clave);
+
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) 
+	        {
+	            usuario = new Usuarios();
+	            usuario.setIdUsuario(rs.getInt("idUsuario"));
+	            usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+	            usuario.setClaveUsuario(rs.getString("claveUsuario"));
+	        }
+	    } 
+	    catch (SQLException e) 
+	    {
+	        e.printStackTrace();
+	    }
+
+	    return usuario;
 	}
 	
 	public List<Proyectos> obtenerProyectos() 
@@ -117,4 +123,28 @@ public class Datos
 	    }
 	    return lista;
 	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean insertarProyecto(String nombreProyecto, Usuarios usuario) 
+	{
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) 
+	    {
+	        session.beginTransaction();
+
+	        ProyectosHibernate proyecto = new ProyectosHibernate();
+	        proyecto.setNombreProyecto(nombreProyecto);
+	        proyecto.setUsuario(usuario); // relación ManyToOne
+
+	        session.save(proyecto);
+
+	        session.getTransaction().commit();
+	        return true;
+	    } 
+	    catch (Exception e) 
+	    {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 }
