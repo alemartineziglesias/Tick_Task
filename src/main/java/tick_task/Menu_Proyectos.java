@@ -16,12 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 public class Menu_Proyectos extends JFrame 
 {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private JScrollPane scrollPane;
     private JButton btnNuevoProyecto;
     @SuppressWarnings("unused")
 	private Usuarios usuario;
@@ -47,20 +49,24 @@ public class Menu_Proyectos extends JFrame
 
         contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        contentPane.setBounds(x, y, panelWidth, panelHeight);
         contentPane.setBorder(new EmptyBorder(0, 5, 5, 5));
-        contentPane.setBackground(new Color(0, 0, 0));
-        add(contentPane);
+        contentPane.setBackground(new Color(33, 33, 33));
+
+        scrollPane = new JScrollPane(contentPane);
+        scrollPane.setBounds(x, y, panelWidth, panelHeight);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(scrollPane);
 
         btnNuevoProyecto = new JButton("Crear proyecto");
         btnNuevoProyecto.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				Crear_Proyecto proyecto = new Crear_Proyecto(usuario);
-				proyecto.setVisible(true);			
-			}
-		});
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
+                Crear_Proyecto proyecto = new Crear_Proyecto(usuario, Menu_Proyectos.this);
+                proyecto.setVisible(true);            
+            }
+        });
         btnNuevoProyecto.setBounds(((getWidth() - 160) / 2) - 8, y + panelHeight + 20, 160, 30); // Centrado debajo
         add(btnNuevoProyecto);
 

@@ -87,7 +87,7 @@ public class Crear_usuario extends JFrame
 		contentPane.add(btnEntrar);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnEntrar.addActionListener(new ActionListener() 
+		btnCancelar.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -95,7 +95,7 @@ public class Crear_usuario extends JFrame
 			}
 		});
 		btnCancelar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
-		btnCancelar.setBounds(103, 168, 91, 32);
+		btnCancelar.setBounds(97, 168, 102, 32);
 		contentPane.add(btnCancelar);
 	}
 }

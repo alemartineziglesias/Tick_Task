@@ -7,7 +7,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -18,13 +17,16 @@ public class Crear_Proyecto extends JFrame
 	private JTextField textFieldProyecto;
 	@SuppressWarnings("unused")
 	private Usuarios usuario;
+	@SuppressWarnings("unused")
+	private Menu_Proyectos menuProyectos;
 
 	/**
 	 * Create the frame.
 	 */
-	public Crear_Proyecto(Usuarios usuario)
+	public Crear_Proyecto(Usuarios usuario, Menu_Proyectos menuProyectos)
 	{
 		this.usuario = usuario;
+		this.menuProyectos = menuProyectos;
 		setTitle("Crear proyecto");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 230);
@@ -57,11 +59,13 @@ public class Crear_Proyecto extends JFrame
 		        {
 		            Datos datos = new Datos();
 		            datos.insertarProyecto(nombreProyecto, usuario);
+		            menuProyectos.mostrarProyectos(datos.obtenerProyectos());
+
 		            dispose();
 		        } 
 		        else 
 		        {
-		        	Dialogo dialogo = new Dialogo("Error: rellena el nombre");
+		            Dialogo dialogo = new Dialogo("Error: rellena el nombre");
 		            dialogo.setVisible(true);
 		        }
 		    }
@@ -71,8 +75,15 @@ public class Crear_Proyecto extends JFrame
 		contentPane.add(btnCrear);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() 
+		{
+		    public void actionPerformed(ActionEvent e) 
+		    {
+		        setVisible(false);
+		    }
+		});
 		btnCancelar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
-		btnCancelar.setBounds(90, 146, 91, 34);
+		btnCancelar.setBounds(90, 146, 101, 34);
 		contentPane.add(btnCancelar);
 	}
 }
