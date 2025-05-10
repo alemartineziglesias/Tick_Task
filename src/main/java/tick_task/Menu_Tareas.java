@@ -14,24 +14,27 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-public class Menu_Proyectos extends JFrame 
+public class Menu_Tareas extends JFrame 
 {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JScrollPane scrollPane;
     private JButton btnNuevoProyecto;
+    private int id;
     @SuppressWarnings("unused")
-	private Usuarios usuario;
+	private String proyecto;
     Datos datos = new Datos();
 
-    public Menu_Proyectos(Usuarios usuario) 
+    public Menu_Tareas(int id, String proyecto) 
     {
-    	this.usuario = usuario;
-        setTitle("Proyectos");
+    	this.id = id;
+    	this.proyecto = proyecto;
+        setTitle(proyecto + " - Tareas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLayout(null);
@@ -62,8 +65,7 @@ public class Menu_Proyectos extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-                Crear_Proyecto proyecto = new Crear_Proyecto(usuario, Menu_Proyectos.this);
-                proyecto.setVisible(true);            
+  
             }
         });
         btnNuevoProyecto.setBounds(((getWidth() - 160) / 2) - 8, y + panelHeight + 20, 160, 30); // Centrado debajo
@@ -117,9 +119,12 @@ public class Menu_Proyectos extends JFrame
 
                 public void mouseClicked(MouseEvent e) 
                 {
-                    Menu_Tareas tareas = new Menu_Tareas(proyecto.getIdProyecto(), proyecto.getNombreProyecto());
-                    tareas.setVisible(true);
-                    setVisible(false);
+                    JOptionPane.showMessageDialog(null,
+                            "Proyecto: " + proyecto.getNombreProyecto() +
+                                    "\nUsuario: " + proyecto.getNombreUsuario(),
+                            "Detalle del Proyecto",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    System.out.print(id);
                 }
             });
             // Añadir un poco de espacio entre los ítems

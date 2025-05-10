@@ -92,16 +92,17 @@ public class Datos
 	        System.out.println("No se pudo establecer conexión con la base de datos.");
 	        return lista;
 	    }
-	    String query = "SELECT nombreProyecto, nombreUsuario " + "FROM proyectos JOIN usuarios ON proyectos.idUsuarioFK = usuarios.idUsuario ORDER BY proyectos.idProyecto ASC";
+	    String query = "SELECT idProyecto, nombreProyecto, nombreUsuario " + "FROM proyectos JOIN usuarios ON proyectos.idUsuarioFK = usuarios.idUsuario ORDER BY proyectos.idProyecto ASC";
 	    try 
 	    {
 	        stmt = connection.prepareStatement(query);
 	        rs = stmt.executeQuery();
 	        while (rs.next()) 
 	        {
+	        	int idProyecto = rs.getInt("idProyecto");
 	            String nombreProyecto = rs.getString("nombreProyecto");
 	            String nombreUsuario = rs.getString("nombreUsuario");
-	            lista.add(new Proyectos(nombreProyecto, nombreUsuario));
+	            lista.add(new Proyectos(idProyecto, nombreProyecto, nombreUsuario));
 	        }
 
 	    } 
