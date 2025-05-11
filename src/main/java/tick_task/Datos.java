@@ -92,7 +92,7 @@ public class Datos
 	        System.out.println("No se pudo establecer conexión con la base de datos.");
 	        return lista;
 	    }
-	    String query = "SELECT idProyecto, nombreProyecto, nombreUsuario " + "FROM proyectos JOIN usuarios ON proyectos.idUsuarioFK = usuarios.idUsuario ORDER BY proyectos.idProyecto ASC";
+	    String query = "SELECT idProyecto, nombreProyecto, idUsuarioFK, nombreUsuario " + "FROM proyectos JOIN usuarios ON proyectos.idUsuarioFK = usuarios.idUsuario ORDER BY proyectos.idProyecto ASC";
 	    try 
 	    {
 	        stmt = connection.prepareStatement(query);
@@ -101,8 +101,9 @@ public class Datos
 	        {
 	        	int idProyecto = rs.getInt("idProyecto");
 	            String nombreProyecto = rs.getString("nombreProyecto");
+	            int idUsuario = rs.getInt("idUsuarioFK");
 	            String nombreUsuario = rs.getString("nombreUsuario");
-	            lista.add(new Proyectos(idProyecto, nombreProyecto, nombreUsuario));
+	            lista.add(new Proyectos(idProyecto, nombreProyecto, idUsuario, nombreUsuario));
 	        }
 
 	    } 
@@ -147,5 +148,70 @@ public class Datos
 	        return false;
 	    }
 	}
+	
+	public boolean eliminarProyecto(int idProyecto) 
+	{
+	    if (!conectar()) 
+	    {
+	        return false;
+	    }
 
+	    String sql = "DELETE FROM proyectos WHERE idProyecto = ?";
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) 
+	    {
+	        stmt.setInt(1, idProyecto);
+	        int rowsAffected = stmt.executeUpdate();
+	        return rowsAffected > 0;
+	    } 
+	    catch (SQLException e) 
+	    {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public List<Tareas> obtenerTareas(int idProyecto) 
+	{
+	    List<Tareas> lista = new ArrayList<>();
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    if (!conectar()) 
+	    {
+	        System.out.println("No se pudo establecer conexión con la base de datos.");
+	        return lista;
+	    }
+	    String query = "SELECT idTarea, nombreTarea, descripcionTarea, fechaVencimientoTarea, estadoTarea " + "FROM tareas WHERE idProyectoFK = " + idProyecto;
+	    try 
+	    {
+	        stmt = connection.prepareStatement(query);
+	        rs = stmt.executeQuery();
+	        while (rs.next()) 
+	        {
+	        	int idTarea = rs.getInt("idTarea");
+	            String nombreTarea = rs.getString("nombreTarea");
+	            String descripcionTarea = rs.getString("descripcionTarea");
+	            String fechaTarea = rs.getString("fechaVencimientoTarea");
+	            int estadoTarea = rs.getInt("estadoTarea");
+	            lista.add(new Tareas(idTarea, nombreTarea, descripcionTarea, fechaTarea, estadoTarea));
+	        }
+
+	    } 
+	    catch (SQLException e) 
+	    {
+	        e.printStackTrace();
+	    } 
+	    finally 
+	    {
+	        try 
+	        {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	        } 
+	        catch (SQLException e) 
+	        {
+	            e.printStackTrace();
+	        }
+	    }
+	    return lista;
+	}
 }

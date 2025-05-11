@@ -60,7 +60,7 @@ public class Menu_Tareas extends JFrame
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane);
 
-        btnNuevoProyecto = new JButton("Crear proyecto");
+        btnNuevoProyecto = new JButton("Crear tarea");
         btnNuevoProyecto.addActionListener(new ActionListener() 
         {
             public void actionPerformed(ActionEvent e) 
@@ -71,17 +71,17 @@ public class Menu_Tareas extends JFrame
         btnNuevoProyecto.setBounds(((getWidth() - 160) / 2) - 8, y + panelHeight + 20, 160, 30); // Centrado debajo
         add(btnNuevoProyecto);
 
-        List<Proyectos> proyectos = datos.obtenerProyectos();
-        mostrarProyectos(proyectos);
+        List<Tareas> tareas = datos.obtenerTareas(id);
+        mostrarTareas(tareas);
     }
 
 
-    public void mostrarProyectos(List<Proyectos> proyectos) 
+    public void mostrarTareas(List<Tareas> tareas) 
     {
         contentPane.removeAll();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
-        for (Proyectos proyecto : proyectos) 
+        for (Tareas tarea : tareas) 
         {
             JPanel itemPanel = new JPanel();
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS)); // Usamos BoxLayout en Y para alinear los componentes verticalmente
@@ -95,15 +95,15 @@ public class Menu_Tareas extends JFrame
             itemPanel.setBackground(new Color(255, 255, 255));
             itemPanel.setOpaque(true);
 
-            JLabel lblNombre = new JLabel(proyecto.getNombreProyecto());
+            JLabel lblNombre = new JLabel(tarea.getNombreTarea());
             lblNombre.setFont(new Font("Microsoft YaHei", Font.BOLD, 14));
             lblNombre.setForeground(new Color(40, 40, 40));
             itemPanel.add(lblNombre);
 
-            JLabel lblUsuario = new JLabel("Creado por: " + proyecto.getNombreUsuario());
-            lblUsuario.setFont(new Font("Microsoft YaHei", Font.PLAIN, 12));
-            lblUsuario.setForeground(new Color(100, 100, 100));
-            itemPanel.add(lblUsuario);
+            JLabel lblFecha = new JLabel("Fecha: " + tarea.getFechaTarea());
+            lblFecha.setFont(new Font("Microsoft YaHei", Font.PLAIN, 12));
+            lblFecha.setForeground(new Color(100, 100, 100));
+            itemPanel.add(lblFecha);
 
             itemPanel.addMouseListener(new MouseAdapter() 
             {
@@ -120,9 +120,9 @@ public class Menu_Tareas extends JFrame
                 public void mouseClicked(MouseEvent e) 
                 {
                     JOptionPane.showMessageDialog(null,
-                            "Proyecto: " + proyecto.getNombreProyecto() +
-                                    "\nUsuario: " + proyecto.getNombreUsuario(),
-                            "Detalle del Proyecto",
+                            "Tarea: " + tarea.getNombreTarea() +
+                                    "\nFecha: " + tarea.getFechaTarea(),
+                            "Detalle de la Tarea",
                             JOptionPane.INFORMATION_MESSAGE);
                     System.out.print(id);
                 }

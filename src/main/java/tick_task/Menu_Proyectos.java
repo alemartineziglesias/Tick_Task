@@ -42,7 +42,7 @@ public class Menu_Proyectos extends JFrame
         int panelWidth = 475;
         int panelHeight = 220;
 
-        // Calculamos posición centrada
+        // Calculo de la posición centrada
         int x = ((getWidth() - panelWidth) / 2) - 8;
         int y = 40;
 
@@ -105,21 +105,80 @@ public class Menu_Proyectos extends JFrame
 
             itemPanel.addMouseListener(new MouseAdapter() 
             {
-                public void mouseEntered(MouseEvent e) 
+                private javax.swing.Timer holdTimer;
+                private final int HOLD_DELAY = 800;
+
+                @Override
+                public void mousePressed(MouseEvent e) 
                 {
-                    itemPanel.setBackground(new Color(240, 240, 240));
+                    holdTimer = new javax.swing.Timer(HOLD_DELAY, new ActionListener() 
+                    {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) 
+                        {
+                        	if(usuario.getIdUsuario() == proyecto.getIdUsuario())
+                        	{
+                        		holdTimer.stop();
+
+                                int confirm = javax.swing.JOptionPane.showConfirmDialog(
+                                    Menu_Proyectos.this,
+                                    "¿Deseas eliminar el proyecto?",
+                                    "Confirmar eliminación",
+                                    javax.swing.JOptionPane.YES_NO_OPTION
+                                );
+
+                                if (confirm == javax.swing.JOptionPane.YES_OPTION) 
+                                {
+                                    boolean eliminado = datos.eliminarProyecto(proyecto.getIdProyecto());
+                                    if (eliminado) 
+                                    {
+                                        javax.swing.JOptionPane.showMessageDialog(Menu_Proyectos.this, "Proyecto eliminado exitosamente.");
+                                        mostrarProyectos(datos.obtenerProyectos()); // refrescar lista
+                                    } 
+                                    else 
+                                    {
+                                        javax.swing.JOptionPane.showMessageDialog(Menu_Proyectos.this, "Error al eliminar el proyecto.");
+                                    }
+                                }
+                        	}
+                        	else
+                        	{
+                        		Dialogo dialogo = new Dialogo("Error: el proyecto a eliminar no es tuyo");
+            		            dialogo.setVisible(true);
+                        	}
+                        }
+                    });
+                    holdTimer.setRepeats(false);
+                    holdTimer.start();
                 }
 
+                @Override
+                public void mouseReleased(MouseEvent e) 
+                {
+                    if (holdTimer != null && holdTimer.isRunning()) 
+                    {
+                        holdTimer.stop(); // se interrumpe antes de tiempo → clic normal
+                        // Abrir menú de tareas
+                        Menu_Tareas tareas = new Menu_Tareas(proyecto.getIdProyecto(), proyecto.getNombreProyecto());
+                        tareas.setVisible(true);
+                        setVisible(false);
+                    }
+                }
+
+                @Override
                 public void mouseExited(MouseEvent e) 
                 {
+                    if (holdTimer != null && holdTimer.isRunning()) 
+                    {
+                        holdTimer.stop(); // cancelar si el mouse sale del área
+                    }
                     itemPanel.setBackground(new Color(255, 255, 255));
                 }
 
-                public void mouseClicked(MouseEvent e) 
+                @Override
+                public void mouseEntered(MouseEvent e) 
                 {
-                    Menu_Tareas tareas = new Menu_Tareas(proyecto.getIdProyecto(), proyecto.getNombreProyecto());
-                    tareas.setVisible(true);
-                    setVisible(false);
+                    itemPanel.setBackground(new Color(240, 240, 240));
                 }
             });
             // Añadir un poco de espacio entre los ítems
