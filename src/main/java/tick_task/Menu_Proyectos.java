@@ -24,8 +24,7 @@ public class Menu_Proyectos extends JFrame
     private JPanel contentPane;
     private JScrollPane scrollPane;
     private JButton btnNuevoProyecto;
-    @SuppressWarnings("unused")
-	private Usuarios usuario;
+    private Usuarios usuario;
     Datos datos = new Datos();
 
     public Menu_Proyectos(Usuarios usuario) 

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -65,7 +66,8 @@ public class Menu_Tareas extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-  
+            	Crear_Tarea tarea = new Crear_Tarea();
+            	tarea.setVisible(true);
             }
         });
         btnNuevoProyecto.setBounds(((getWidth() - 160) / 2) - 8, y + panelHeight + 20, 160, 30); // Centrado debajo
@@ -83,6 +85,8 @@ public class Menu_Tareas extends JFrame
 
         for (Tareas tarea : tareas) 
         {
+        	LocalDate fechaVencimiento = LocalDate.parse(tarea.getFechaTarea());
+            LocalDate fechaActual = LocalDate.now();
             JPanel itemPanel = new JPanel();
             itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS)); // Usamos BoxLayout en Y para alinear los componentes verticalmente
             itemPanel.setMaximumSize(new Dimension(455, 60)); // Un poco menos que el contentPane
@@ -109,12 +113,42 @@ public class Menu_Tareas extends JFrame
             {
                 public void mouseEntered(MouseEvent e) 
                 {
-                    itemPanel.setBackground(new Color(240, 240, 240));
+                	if(tarea.getEstadoTarea() == 2)
+                	{
+                		itemPanel.setBackground(new Color(34, 141, 8));
+                	}
+                	else if(tarea.getEstadoTarea() == 1)
+                	{
+                		itemPanel.setBackground(new Color(155, 158, 1));
+                	}
+                	else if(fechaVencimiento.isAfter(fechaActual))
+                	{
+                		itemPanel.setBackground(new Color(161, 16, 16));
+                	}
+                	else
+                	{
+                		itemPanel.setBackground(new Color(240, 240, 240));
+                	} 
                 }
 
                 public void mouseExited(MouseEvent e) 
                 {
-                    itemPanel.setBackground(new Color(255, 255, 255));
+                	if(tarea.getEstadoTarea() == 2)
+                	{
+                		itemPanel.setBackground(new Color(42, 178, 9));
+                	}
+                	else if(tarea.getEstadoTarea() == 1)
+                	{
+                		itemPanel.setBackground(new Color(202, 205, 3));
+                	}
+                	else if(fechaVencimiento.isAfter(fechaActual))
+                	{
+                		itemPanel.setBackground(new Color(201, 12, 12));
+                	}
+                	else
+                	{
+                		itemPanel.setBackground(new Color(255, 255, 255));
+                	}   
                 }
 
                 public void mouseClicked(MouseEvent e) 
