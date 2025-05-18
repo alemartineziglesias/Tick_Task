@@ -5,9 +5,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -20,12 +24,16 @@ public class Crear_Tarea extends JFrame
 	private JPanel contentPane;
 	private JTextField textField;
 	private JDateChooser dateChooser;
+	@SuppressWarnings("unused")
+	private int id;
 
 	/**
 	 * Create the frame.
+	 * @param id 
 	 */
-	public Crear_Tarea()
+	public Crear_Tarea(int id)
 	{
+		this.id = id;
 		setTitle("Crear tarea");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 409);
@@ -67,6 +75,33 @@ public class Crear_Tarea extends JFrame
 		contentPane.add(dateChooser);
 		
 		JButton btnCrear = new JButton("Crear");
+		btnCrear.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) 
+		    {
+		        String nombre = textField.getText();
+		        String descripcion = textArea.getText();
+		        Date fechaSeleccionada = dateChooser.getDate();
+		        SimpleDateFormat formatoSQL = new SimpleDateFormat("yyyy-MM-dd");
+		        String fecha = formatoSQL.format(fechaSeleccionada);
+
+		        int estado = 0; // estado por defecto
+		        int idProyecto = id; // ya lo tienes tú
+
+		        Datos datos = new Datos();
+		        boolean insertado = datos.insertarTarea(nombre, descripcion, fecha, estado, idProyecto);
+
+		        if (insertado) 
+		        {
+		            JOptionPane.showMessageDialog(null, "Tarea creada con éxito");
+		            setVisible(false);
+		        } 
+		        else 
+		        {
+		            JOptionPane.showMessageDialog(null, "Error al crear la tarea");
+		        }
+		    }
+		});
 		btnCrear.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
 		btnCrear.setBounds(249, 326, 113, 33);
 		contentPane.add(btnCrear);

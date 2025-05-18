@@ -10,5 +10,6 @@
         <!-- Aquí registras tu entidad -->
         <mapping class="tick_task.Usuarios"/>
         <mapping class="tick_task.ProyectosHibernate"/>
+        <mapping class="tick_task.TareasHibernate"/>
     </session-factory>
 </hibernate-configuration>

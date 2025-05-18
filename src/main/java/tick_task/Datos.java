@@ -214,4 +214,25 @@ public class Datos
 	    }
 	    return lista;
 	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean insertarTarea(String nombre, String descripcion, String fecha, int estado, int proyecto) 
+	{
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) 
+	    {
+	        session.beginTransaction();
+
+	        TareasHibernate tarea = new TareasHibernate(nombre, descripcion, fecha, estado, proyecto);
+
+	        session.save(tarea);
+
+	        session.getTransaction().commit();
+	        return true;
+	    } 
+	    catch (Exception e) 
+	    {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 }

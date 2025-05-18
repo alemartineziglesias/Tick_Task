@@ -61,24 +61,32 @@ public class Crear_usuario extends JFrame
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) 
 			{
-				String usuario = textFieldUsuario.getText();
-				String clave = textFieldClave.getText();
-				String claveHasheada = org.apache.commons.codec.digest.DigestUtils.sha256Hex(clave);
-				Usuarios nuevoUsuario = new Usuarios();
-				nuevoUsuario.setNombreUsuario(usuario);
-				nuevoUsuario.setClaveUsuario(claveHasheada);
-				try (var session = HibernateUtil.getSessionFactory().openSession()) 
+				if(!textFieldUsuario.getText().isEmpty() || !textFieldClave.getText().isEmpty())
 				{
-					session.beginTransaction();
-					session.save(nuevoUsuario);
-					session.getTransaction().commit();
-					setVisible(false);
-					Dialogo dialogo = new Dialogo("¡Usuario creado!");
+					String usuario = textFieldUsuario.getText();
+					String clave = textFieldClave.getText();
+					String claveHasheada = org.apache.commons.codec.digest.DigestUtils.sha256Hex(clave);
+					Usuarios nuevoUsuario = new Usuarios();
+					nuevoUsuario.setNombreUsuario(usuario);
+					nuevoUsuario.setClaveUsuario(claveHasheada);
+					try (var session = HibernateUtil.getSessionFactory().openSession()) 
+					{
+						session.beginTransaction();
+						session.save(nuevoUsuario);
+						session.getTransaction().commit();
+						setVisible(false);
+						Dialogo dialogo = new Dialogo("¡Usuario creado!");
+						dialogo.setVisible(true);
+					} 
+					catch (Exception ex) 
+					{
+						ex.printStackTrace();
+					}
+				}
+				else 
+				{
+					Dialogo dialogo = new Dialogo("Rellena todos los campos");
 					dialogo.setVisible(true);
-				} 
-				catch (Exception ex) 
-				{
-					ex.printStackTrace();
 				}
 			}
 		});

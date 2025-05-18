@@ -66,7 +66,7 @@ public class Menu_Tareas extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-            	Crear_Tarea tarea = new Crear_Tarea();
+            	Crear_Tarea tarea = new Crear_Tarea(id);
             	tarea.setVisible(true);
             }
         });
