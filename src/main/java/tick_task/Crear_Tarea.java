@@ -6,34 +6,34 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 public class Crear_Tarea extends JFrame
 {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JDateChooser dateChooser;
 	@SuppressWarnings("unused")
 	private int id;
+	@SuppressWarnings("unused")
+	private Menu_Tareas menuTareas;
 
 	/**
 	 * Create the frame.
 	 * @param id 
 	 */
-	public Crear_Tarea(int id)
+	public Crear_Tarea(int id, Menu_Tareas menuTareas)
 	{
 		this.id = id;
+		this.menuTareas = menuTareas;
 		setTitle("Crear tarea");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 409);
@@ -75,7 +75,8 @@ public class Crear_Tarea extends JFrame
 		contentPane.add(dateChooser);
 		
 		JButton btnCrear = new JButton("Crear");
-		btnCrear.addActionListener(new ActionListener() {
+		btnCrear.addActionListener(new ActionListener() 
+		{
 		    @Override
 		    public void actionPerformed(ActionEvent e) 
 		    {
@@ -86,7 +87,7 @@ public class Crear_Tarea extends JFrame
 		        String fecha = formatoSQL.format(fechaSeleccionada);
 
 		        int estado = 0; // estado por defecto
-		        int idProyecto = id; // ya lo tienes tú
+		        int idProyecto = id;
 
 		        Datos datos = new Datos();
 		        boolean insertado = datos.insertarTarea(nombre, descripcion, fecha, estado, idProyecto);
@@ -94,7 +95,8 @@ public class Crear_Tarea extends JFrame
 		        if (insertado) 
 		        {
 		            JOptionPane.showMessageDialog(null, "Tarea creada con éxito");
-		            setVisible(false);
+		            menuTareas.mostrarTareas(datos.obtenerTareas(id));
+		            dispose();
 		        } 
 		        else 
 		        {

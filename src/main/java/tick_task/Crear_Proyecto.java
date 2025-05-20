@@ -60,7 +60,6 @@ public class Crear_Proyecto extends JFrame
 		            Datos datos = new Datos();
 		            datos.insertarProyecto(nombreProyecto, usuario);
 		            menuProyectos.mostrarProyectos(datos.obtenerProyectos());
-
 		            dispose();
 		        } 
 		        else 

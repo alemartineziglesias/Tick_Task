@@ -66,7 +66,7 @@ public class Menu_Tareas extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-            	Crear_Tarea tarea = new Crear_Tarea(id);
+            	Crear_Tarea tarea = new Crear_Tarea(id, Menu_Tareas.this);
             	tarea.setVisible(true);
             }
         });
@@ -96,7 +96,22 @@ public class Menu_Tareas extends JFrame
             itemPanel.setBorder(BorderFactory.createCompoundBorder(
                     BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-            itemPanel.setBackground(new Color(255, 255, 255));
+            if(tarea.getEstadoTarea() == 2)
+        	{
+        		itemPanel.setBackground(new Color(42, 178, 9));
+        	}
+        	else if(fechaActual.isAfter(fechaVencimiento))
+        	{
+        		itemPanel.setBackground(new Color(201, 12, 12));
+        	}
+        	else if(tarea.getEstadoTarea() == 1)
+        	{
+        		itemPanel.setBackground(new Color(202, 205, 3));
+        	}
+        	else
+        	{
+        		itemPanel.setBackground(new Color(255, 255, 255));
+        	}
             itemPanel.setOpaque(true);
 
             JLabel lblNombre = new JLabel(tarea.getNombreTarea());
@@ -117,13 +132,13 @@ public class Menu_Tareas extends JFrame
                 	{
                 		itemPanel.setBackground(new Color(34, 141, 8));
                 	}
+                	else if(fechaActual.isAfter(fechaVencimiento))
+                	{
+                		itemPanel.setBackground(new Color(161, 16, 16));
+                	}
                 	else if(tarea.getEstadoTarea() == 1)
                 	{
                 		itemPanel.setBackground(new Color(155, 158, 1));
-                	}
-                	else if(fechaVencimiento.isAfter(fechaActual))
-                	{
-                		itemPanel.setBackground(new Color(161, 16, 16));
                 	}
                 	else
                 	{
@@ -137,13 +152,13 @@ public class Menu_Tareas extends JFrame
                 	{
                 		itemPanel.setBackground(new Color(42, 178, 9));
                 	}
+                	else if(fechaActual.isAfter(fechaVencimiento))
+                	{
+                		itemPanel.setBackground(new Color(201, 12, 12));
+                	}
                 	else if(tarea.getEstadoTarea() == 1)
                 	{
                 		itemPanel.setBackground(new Color(202, 205, 3));
-                	}
-                	else if(fechaVencimiento.isAfter(fechaActual))
-                	{
-                		itemPanel.setBackground(new Color(201, 12, 12));
                 	}
                 	else
                 	{
