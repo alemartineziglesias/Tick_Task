@@ -158,7 +158,7 @@ public class Menu_Proyectos extends JFrame
                     {
                         holdTimer.stop(); // se interrumpe antes de tiempo → clic normal
                         // Abrir menú de tareas
-                        Menu_Tareas tareas = new Menu_Tareas(proyecto.getIdProyecto(), proyecto.getNombreProyecto());
+                        Menu_Tareas tareas = new Menu_Tareas(usuario, proyecto.getIdProyecto(), proyecto.getNombreProyecto());
                         tareas.setVisible(true);
                         setVisible(false);
                     }

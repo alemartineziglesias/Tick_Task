@@ -26,13 +26,16 @@ public class Menu_Tareas extends JFrame
     private JPanel contentPane;
     private JScrollPane scrollPane;
     private JButton btnNuevoProyecto;
+    @SuppressWarnings("unused")
+	private Usuarios usuario;
     private int id;
     @SuppressWarnings("unused")
 	private String proyecto;
     Datos datos = new Datos();
 
-    public Menu_Tareas(int id, String proyecto) 
+    public Menu_Tareas(Usuarios usuario, int id, String proyecto) 
     {
+    	this.usuario = usuario;
     	this.id = id;
     	this.proyecto = proyecto;
         setTitle(proyecto + " - Tareas");
@@ -72,6 +75,19 @@ public class Menu_Tareas extends JFrame
         });
         btnNuevoProyecto.setBounds(((getWidth() - 160) / 2) - 8, y + panelHeight + 20, 160, 30); // Centrado debajo
         add(btnNuevoProyecto);
+        
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.setBounds(((getWidth() - 100) / 2) - 8, y + panelHeight + 60, 100, 30);
+        btnVolver.addActionListener(new ActionListener() 
+        {
+            public void actionPerformed(ActionEvent e) 
+            {
+                Menu_Proyectos proyectos = new Menu_Proyectos(usuario);
+                proyectos.setVisible(true);
+                setVisible(false);
+            }
+        });
+        add(btnVolver);
 
         List<Tareas> tareas = datos.obtenerTareas(id);
         mostrarTareas(tareas);
