@@ -15,7 +15,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -184,12 +183,8 @@ public class Menu_Tareas extends JFrame
 
                 public void mouseClicked(MouseEvent e) 
                 {
-                    JOptionPane.showMessageDialog(null,
-                            "Tarea: " + tarea.getNombreTarea() +
-                                    "\nFecha: " + tarea.getFechaTarea(),
-                            "Detalle de la Tarea",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    System.out.print(id);
+                    Modificar_Tarea modificarTarea = new Modificar_Tarea(tarea);
+                    modificarTarea.setVisible(true);
                 }
             });
             // Añadir un poco de espacio entre los ítems
