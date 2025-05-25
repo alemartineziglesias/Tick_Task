@@ -183,7 +183,7 @@ public class Menu_Tareas extends JFrame
 
                 public void mouseClicked(MouseEvent e) 
                 {
-                    Modificar_Tarea modificarTarea = new Modificar_Tarea(tarea);
+                    Modificar_Tarea modificarTarea = new Modificar_Tarea(tarea, Menu_Tareas.this, id);
                     modificarTarea.setVisible(true);
                 }
             });

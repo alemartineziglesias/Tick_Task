@@ -7,6 +7,7 @@ import java.sql.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -22,16 +23,24 @@ public class Modificar_Tarea extends JFrame
 	private JDateChooser dateChooser;
 	@SuppressWarnings("unused")
 	private Tareas tarea;
+	@SuppressWarnings("unused")
+	private Menu_Tareas menuTareas;
+	@SuppressWarnings("unused")
+	private int id;
 
 	/**
 	 * Create the frame.
 	 * @param tarea 
+	 * @param id 
+	 * @param menu_Tareas 
 	 */
-	public Modificar_Tarea(Tareas tarea)
+	public Modificar_Tarea(Tareas tarea, Menu_Tareas menuTareas, int id)
 	{
 		this.tarea = tarea;
+		this.menuTareas = menuTareas;
+		this.id = id;
 		setTitle("Modificar Tarea");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 495);
         getContentPane().setLayout(null);
 		contentPane = new JPanel();
@@ -72,32 +81,6 @@ public class Modificar_Tarea extends JFrame
 		dateChooser.setBounds(198, 270, 146, 20);
 		contentPane.add(dateChooser);
 		
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.addActionListener(new ActionListener() 
-		{
-		    @Override
-		    public void actionPerformed(ActionEvent e) 
-		    {
-		        
-		    }
-		});
-		btnCrear.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
-		btnCrear.setBounds(250, 412, 113, 33);
-		contentPane.add(btnCrear);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				setVisible(false);
-			}
-		});
-		btnCancelar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
-		btnCancelar.setBounds(75, 412, 113, 33);
-		contentPane.add(btnCancelar);
-		
 		JLabel lblEstado = new JLabel("Estado:");
 		lblEstado.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
 		lblEstado.setBounds(198, 318, 48, 14);
@@ -116,5 +99,64 @@ public class Modificar_Tarea extends JFrame
         	case 2: comboBox.setSelectedItem("Completada"); break;
 	    }
 		contentPane.add(comboBox);
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() 
+		{
+		    @Override
+		    public void actionPerformed(ActionEvent e) 
+		    {
+		    	String nuevoNombre = textField.getText();
+		        String nuevaDescripcion = textArea.getText();
+		        String nuevaFecha = new Date(dateChooser.getDate().getTime()).toString();
+		        int nuevoEstado;
+
+		        String estadoSeleccionado = (String) comboBox.getSelectedItem();
+		        switch (estadoSeleccionado) 
+		        {
+		            case "Pendiente":
+		                nuevoEstado = 0;
+		                break;
+		            case "En Proceso":
+		                nuevoEstado = 1;
+		                break;
+		            case "Completada":
+		                nuevoEstado = 2;
+		                break;
+		            default:
+		                nuevoEstado = 0;
+		        }
+
+		        Datos datos = new Datos();
+		        boolean actualizado = datos.actualizarTarea(tarea.getIdTarea(), nuevoNombre, nuevaDescripcion, nuevaFecha, nuevoEstado);
+
+		        if (actualizado) 
+		        {
+		        	JOptionPane.showMessageDialog(null, "Modificación completa");
+		            menuTareas.mostrarTareas(datos.obtenerTareas(id));
+		            dispose(); // Cierra la ventana
+		        } 
+		        else 
+		        {
+		            System.out.println("Error al actualizar la tarea.");
+		        }
+		    }
+		});
+		btnEditar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
+		btnEditar.setBounds(250, 412, 113, 33);
+		contentPane.add(btnEditar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				setVisible(false);
+			}
+		});
+		btnCancelar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));
+		btnCancelar.setBounds(75, 412, 113, 33);
+		contentPane.add(btnCancelar);
 	}
 }

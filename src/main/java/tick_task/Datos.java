@@ -235,4 +235,31 @@ public class Datos
 	        return false;
 	    }
 	}
+	
+	public boolean actualizarTarea(int idTarea, String nombre, String descripcion, String fecha, int estado) 
+	{
+	    if (!conectar()) 
+	    {
+	        return false;
+	    }
+
+	    String sql = "UPDATE tareas SET nombreTarea = ?, descripcionTarea = ?, fechaVencimientoTarea = ?, estadoTarea = ? WHERE idTarea = ?";
+
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) 
+	    {
+	        stmt.setString(1, nombre);
+	        stmt.setString(2, descripcion);
+	        stmt.setString(3, fecha);
+	        stmt.setInt(4, estado);
+	        stmt.setInt(5, idTarea);
+
+	        int filasActualizadas = stmt.executeUpdate();
+	        return filasActualizadas > 0;
+	    } 
+	    catch (SQLException e) 
+	    {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 }
