@@ -7,7 +7,6 @@ import java.sql.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -79,6 +78,7 @@ public class Modificar_Tarea extends JFrame
 		dateChooser = new JDateChooser();
 		dateChooser.setDate(Date.valueOf(tarea.getFechaTarea()));
 		dateChooser.setBounds(198, 270, 146, 20);
+		((JTextField) dateChooser.getDateEditor().getUiComponent()).setEditable(false);
 		contentPane.add(dateChooser);
 		
 		JLabel lblEstado = new JLabel("Estado:");
@@ -106,40 +106,50 @@ public class Modificar_Tarea extends JFrame
 		    @Override
 		    public void actionPerformed(ActionEvent e) 
 		    {
-		    	String nuevoNombre = textField.getText();
-		        String nuevaDescripcion = textArea.getText();
-		        String nuevaFecha = new Date(dateChooser.getDate().getTime()).toString();
-		        int nuevoEstado;
+		    	if(textField.getText().isBlank() || textArea.getText().isBlank())
+		    	{
+		    		Dialogo dialogo = new Dialogo("Error: rellena todos los campos");
+					dialogo.setVisible(true);
+		    	}
+		    	else
+		    	{
+		    		String nuevoNombre = textField.getText();
+			        String nuevaDescripcion = textArea.getText();
+			        String nuevaFecha = new Date(dateChooser.getDate().getTime()).toString();
+			        int nuevoEstado;
 
-		        String estadoSeleccionado = (String) comboBox.getSelectedItem();
-		        switch (estadoSeleccionado) 
-		        {
-		            case "Pendiente":
-		                nuevoEstado = 0;
-		                break;
-		            case "En Proceso":
-		                nuevoEstado = 1;
-		                break;
-		            case "Completada":
-		                nuevoEstado = 2;
-		                break;
-		            default:
-		                nuevoEstado = 0;
-		        }
+			        String estadoSeleccionado = (String) comboBox.getSelectedItem();
+			        switch (estadoSeleccionado) 
+			        {
+			            case "Pendiente":
+			                nuevoEstado = 0;
+			                break;
+			            case "En Proceso":
+			                nuevoEstado = 1;
+			                break;
+			            case "Completada":
+			                nuevoEstado = 2;
+			                break;
+			            default:
+			                nuevoEstado = 0;
+			        }
 
-		        Datos datos = new Datos();
-		        boolean actualizado = datos.actualizarTarea(tarea.getIdTarea(), nuevoNombre, nuevaDescripcion, nuevaFecha, nuevoEstado);
+			        Datos datos = new Datos();
+			        boolean actualizado = datos.actualizarTarea(tarea.getIdTarea(), nuevoNombre, nuevaDescripcion, nuevaFecha, nuevoEstado);
 
-		        if (actualizado) 
-		        {
-		        	JOptionPane.showMessageDialog(null, "Modificación completa");
-		            menuTareas.mostrarTareas(datos.obtenerTareas(id));
-		            dispose(); // Cierra la ventana
-		        } 
-		        else 
-		        {
-		            System.out.println("Error al actualizar la tarea.");
-		        }
+			        if (actualizado) 
+			        {
+			        	Dialogo dialogo = new Dialogo("¡Tarea modificada!");
+						dialogo.setVisible(true);
+			            menuTareas.mostrarTareas(datos.obtenerTareas(id));
+			            dispose();
+			        } 
+			        else 
+			        {
+			        	Dialogo dialogo = new Dialogo("Error al modificar la tarea");
+						dialogo.setVisible(true);
+			        }
+		    	}
 		    }
 		});
 		btnEditar.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));

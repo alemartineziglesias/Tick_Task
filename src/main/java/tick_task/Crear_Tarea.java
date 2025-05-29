@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,6 +71,7 @@ public class Crear_Tarea extends JFrame
 		
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(198, 270, 146, 20);
+		((JTextField) dateChooser.getDateEditor().getUiComponent()).setEditable(false);
 		contentPane.add(dateChooser);
 		
 		JButton btnCrear = new JButton("Crear");
@@ -80,27 +80,38 @@ public class Crear_Tarea extends JFrame
 		    @Override
 		    public void actionPerformed(ActionEvent e) 
 		    {
-		        String nombre = textField.getText();
-		        String descripcion = textArea.getText();
-		        Date fechaSeleccionada = dateChooser.getDate();
-		        SimpleDateFormat formatoSQL = new SimpleDateFormat("yyyy-MM-dd");
-		        String fecha = formatoSQL.format(fechaSeleccionada);
+		        
 
-		        int estado = 0; // estado por defecto
-		        int idProyecto = id;
-
-		        Datos datos = new Datos();
-		        boolean insertado = datos.insertarTarea(nombre, descripcion, fecha, estado, idProyecto);
-
-		        if (insertado) 
+		        if(textField.getText().isBlank() || textArea.getText().isBlank() || ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText().isBlank())
 		        {
-		            JOptionPane.showMessageDialog(null, "Tarea creada con éxito");
-		            menuTareas.mostrarTareas(datos.obtenerTareas(id));
-		            dispose();
-		        } 
-		        else 
+		        	Dialogo dialogo = new Dialogo("Error: rellena todos los campos");
+					dialogo.setVisible(true);
+		        }
+		        else
 		        {
-		            JOptionPane.showMessageDialog(null, "Error al crear la tarea");
+		        	String nombre = textField.getText();
+			        String descripcion = textArea.getText();
+			        Date fechaSeleccionada = dateChooser.getDate();
+			        SimpleDateFormat formatoSQL = new SimpleDateFormat("yyyy-MM-dd");
+			        String fecha = formatoSQL.format(fechaSeleccionada);
+
+			        int estado = 0; // estado por defecto
+			        int idProyecto = id;
+		        	Datos datos = new Datos();
+			        boolean insertado = datos.insertarTarea(nombre, descripcion, fecha, estado, idProyecto);
+
+			        if (insertado) 
+			        {
+			        	Dialogo dialogo = new Dialogo("¡Tarea creada!");
+						dialogo.setVisible(true);
+			            menuTareas.mostrarTareas(datos.obtenerTareas(id));
+			            dispose();
+			        } 
+			        else 
+			        {
+			        	Dialogo dialogo = new Dialogo("Error al crear el usuario");
+						dialogo.setVisible(true);
+			        }
 		        }
 		    }
 		});
