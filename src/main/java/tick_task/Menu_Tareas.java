@@ -15,8 +15,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 public class Menu_Tareas extends JFrame 
@@ -141,6 +143,8 @@ public class Menu_Tareas extends JFrame
 
             itemPanel.addMouseListener(new MouseAdapter() 
             {
+            	private Timer holdTimer;
+                private final int HOLD_DELAY = 800;
                 public void mouseEntered(MouseEvent e) 
                 {
                 	if(tarea.getEstadoTarea() == 2)
@@ -181,10 +185,51 @@ public class Menu_Tareas extends JFrame
                 	}   
                 }
 
-                public void mouseClicked(MouseEvent e) 
+                @Override
+                public void mousePressed(MouseEvent e) 
                 {
-                    Modificar_Tarea modificarTarea = new Modificar_Tarea(tarea, Menu_Tareas.this, id);
-                    modificarTarea.setVisible(true);
+                    holdTimer = new Timer(HOLD_DELAY, new ActionListener() 
+                    {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) 
+                        {
+                            holdTimer.stop();
+
+                            int confirm = JOptionPane.showConfirmDialog(
+                                Menu_Tareas.this,
+                                "¿Deseas eliminar esta tarea?",
+                                "Confirmar eliminación",
+                                JOptionPane.YES_NO_OPTION
+                            );
+
+                            if (confirm == JOptionPane.YES_OPTION) 
+                            {
+                                boolean eliminado = datos.eliminarTarea(tarea.getIdTarea());
+                                if (eliminado) 
+                                {
+                                    JOptionPane.showMessageDialog(Menu_Tareas.this, "Tarea eliminada exitosamente.");
+                                    mostrarTareas(datos.obtenerTareas(id)); // refrescar lista
+                                }
+                                else 
+                                {
+                                    JOptionPane.showMessageDialog(Menu_Tareas.this, "Error al eliminar la tarea.");
+                                }
+                            }
+                        }
+                    });
+                    holdTimer.setRepeats(false);
+                    holdTimer.start();
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) 
+                {
+                    if (holdTimer != null && holdTimer.isRunning()) 
+                    {
+                        holdTimer.stop();
+                        Modificar_Tarea modificarTarea = new Modificar_Tarea(tarea, Menu_Tareas.this, id);
+                        modificarTarea.setVisible(true);
+                    }
                 }
             });
             // Añadir un poco de espacio entre los ítems

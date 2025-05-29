@@ -262,4 +262,25 @@ public class Datos
 	        return false;
 	    }
 	}
+	
+	public boolean eliminarTarea(int idTarea) 
+	{
+	    if (!conectar()) 
+	    {
+	        return false;
+	    }
+
+	    String sql = "DELETE FROM tareas WHERE idTarea = ?";
+	    try (PreparedStatement stmt = connection.prepareStatement(sql)) 
+	    {
+	        stmt.setInt(1, idTarea);
+	        int rowsAffected = stmt.executeUpdate();
+	        return rowsAffected > 0;
+	    } 
+	    catch (SQLException e) 
+	    {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 }
