@@ -180,7 +180,7 @@ public class Datos
 	        System.out.println("No se pudo establecer conexión con la base de datos.");
 	        return lista;
 	    }
-	    String query = "SELECT idTarea, nombreTarea, descripcionTarea, fechaVencimientoTarea, estadoTarea " + "FROM tareas WHERE idProyectoFK = " + idProyecto;
+	    String query = "SELECT idTarea, nombreTarea, descripcionTarea, fechaVencimientoTarea, estadoTarea " + "FROM tareas WHERE idProyectoFK = " + idProyecto + " ORDER BY fechaVencimientoTarea";
 	    try 
 	    {
 	        stmt = connection.prepareStatement(query);
