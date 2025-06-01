@@ -138,7 +138,7 @@ public class Menu_Proyectos extends JFrame
                                     } 
                                     else 
                                     {
-                                        JOptionPane.showMessageDialog(Menu_Proyectos.this, "Error al eliminar el proyecto.");
+                                        JOptionPane.showMessageDialog(Menu_Proyectos.this, "Error: elimine las tareas antes.");
                                     }
                                 }
                         	}
