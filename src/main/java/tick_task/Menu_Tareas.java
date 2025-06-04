@@ -207,7 +207,7 @@ public class Menu_Tareas extends JFrame
                                 boolean eliminado = datos.eliminarTarea(tarea.getIdTarea());
                                 if (eliminado) 
                                 {
-                                	Dialogo dialogo = new Dialogo("¡Tarea eliminada!");
+                                	Dialogo dialogo = new Dialogo("Tarea eliminada exitosamente");
             						dialogo.setVisible(true);
                                     mostrarTareas(datos.obtenerTareas(id)); // refrescar lista
                                 }

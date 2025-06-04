@@ -117,7 +117,7 @@ public class Login extends JFrame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				Crear_usuario usuarios = new Crear_usuario();
+				Crear_Usuario usuarios = new Crear_Usuario();
 				usuarios.setVisible(true);
 			}
 		});

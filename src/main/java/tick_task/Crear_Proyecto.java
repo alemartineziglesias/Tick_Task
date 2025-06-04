@@ -59,6 +59,8 @@ public class Crear_Proyecto extends JFrame
 		        {
 		            Datos datos = new Datos();
 		            datos.insertarProyecto(nombreProyecto, usuario);
+		            Dialogo dialogo = new Dialogo("¡Proyecto creado!");
+		            dialogo.setVisible(true);
 		            menuProyectos.mostrarProyectos(datos.obtenerProyectos());
 		            dispose();
 		        } 

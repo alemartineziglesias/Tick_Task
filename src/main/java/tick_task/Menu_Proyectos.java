@@ -133,12 +133,14 @@ public class Menu_Proyectos extends JFrame
                                     boolean eliminado = datos.eliminarProyecto(proyecto.getIdProyecto());
                                     if (eliminado) 
                                     {
-                                        JOptionPane.showMessageDialog(Menu_Proyectos.this, "Proyecto eliminado exitosamente.");
+                                    	Dialogo dialogo = new Dialogo("Proyecto eliminado exitosamente");
+                    		            dialogo.setVisible(true);
                                         mostrarProyectos(datos.obtenerProyectos()); // refrescar lista
                                     } 
                                     else 
                                     {
-                                        JOptionPane.showMessageDialog(Menu_Proyectos.this, "Error: elimine las tareas antes.");
+                                    	Dialogo dialogo = new Dialogo("Error: elimine las tareas antes");
+                    		            dialogo.setVisible(true);
                                     }
                                 }
                         	}

@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -66,9 +67,13 @@ public class Modificar_Tarea extends JFrame
 		lblDescripcion.setBounds(181, 88, 82, 14);
 		contentPane.add(lblDescripcion);
 		
-		JTextArea textArea = new JTextArea(tarea.getDescripcionTarea());
-		textArea.setBounds(59, 113, 320, 135);
-		contentPane.add(textArea);
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(59, 113, 320, 135);
+		contentPane.add(scrollPane);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));

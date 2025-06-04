@@ -2,6 +2,7 @@ package tick_task;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JLabel;
@@ -61,8 +62,12 @@ public class Crear_Tarea extends JFrame
 		contentPane.add(lblDescripcion);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(59, 113, 320, 135);
-		contentPane.add(textArea);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(59, 113, 320, 135);
+		contentPane.add(scrollPane);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Microsoft YaHei", Font.PLAIN, 14));

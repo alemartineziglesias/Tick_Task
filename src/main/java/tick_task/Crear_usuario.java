@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class Crear_usuario extends JFrame
+public class Crear_Usuario extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -22,7 +22,7 @@ public class Crear_usuario extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public Crear_usuario()
+	public Crear_Usuario()
 	{
 		setTitle("Crear usuario");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
