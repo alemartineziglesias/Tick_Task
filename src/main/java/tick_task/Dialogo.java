@@ -14,20 +14,20 @@ public class Dialogo extends JDialog
 
 	public Dialogo(String mensaje) 
 	{
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 209);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setFont(new Font("Microsoft YaHei", Font.PLAIN, 18));
-		lblNewLabel.setBounds(10, 99, 414, 40);
+		lblNewLabel.setBounds(10, 39, 414, 40);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setText(mensaje);
 		getContentPane().add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Ok");
 		btnNewButton.setFont(new Font("Microsoft YaHei", Font.PLAIN, 15));
-		btnNewButton.setBounds(172, 199, 89, 40);
+		btnNewButton.setBounds(172, 105, 89, 40);
 		btnNewButton.addActionListener(new ActionListener()
 		{
 			@Override
