@@ -67,7 +67,7 @@ public class Modificar_Tarea extends JFrame
 		lblDescripcion.setBounds(181, 88, 82, 14);
 		contentPane.add(lblDescripcion);
 		
-		JTextArea textArea = new JTextArea();
+		JTextArea textArea = new JTextArea(tarea.getDescripcionTarea());
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 
